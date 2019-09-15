@@ -1,0 +1,94 @@
+﻿@model XYZschool.ViewModels.CourseIndexData
+
+@{
+    ViewBag.Title = "Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Courses</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           CourseId
+        </th>
+        <th>
+           Title
+        </th>
+        <th>
+            Credits
+        </th>
+        <th>
+           Department
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Courses) {
+
+    string selectedRow = "";
+    if(item.CourseId == ViewBag.CourseID)
+    {
+        selectedRow = "success";
+    }
+
+    <tr class="@selectedRow" valign="top">
+
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Credits)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Enrollements", "Index", new { id = item.CourseId}) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+        </td>
+    </tr>
+}
+
+</table>
+
+@if (Model.Students != null)
+{
+    <h3> Who present this course  </h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>DateOfBirth</th>
+        </tr>
+        
+            @foreach ( var item in Model.Students)
+            {
+                string selectedRow = "";
+                if( item.StudentID == ViewBag.StudentId)
+                {
+                    selectedRow = "success";
+                }
+                <tr accesskey="" class="@selectedRow">
+                    <td>
+                        @Html.ActionLink("Enrollements","Index",new {StudentId = item.StudentID})
+                    </td>
+                    <td>@item.FirstName</td>
+                    
+                    <td>@item.LastName</td>
+                    <td>@item.DateOfBirth</td>
+                </tr>
+            }
+       
+    </table>
+}

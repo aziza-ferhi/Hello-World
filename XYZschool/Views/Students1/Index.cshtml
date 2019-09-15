@@ -1,0 +1,165 @@
+﻿@model XYZschool.ViewModels.StudentIndexData
+
+@{
+    ViewBag.Title = "Students";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            StudentID
+        </th>
+        <th>
+            FirstName
+        </th>
+        <th>
+            LastName
+        </th>
+        <th>
+            DateOfBirth
+        </th>
+        <th>
+            Office
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Students)
+    {
+        string selectedRow = "";
+        if (item.StudentID == ViewBag.StudentID)
+        {
+            selectedRow = "success";
+        }
+        
+        <tr class="@selectedRow" valign="top">
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeAssignment.Location)
+            </td>
+
+            <td accesskey=" ">
+                @if (item.OfficeAssignment != null)
+                {
+                    @item.OfficeAssignment.Location
+                }
+            </td>
+
+            <td>
+                @Html.ActionLink("Subscribe", "Subscribe", new { id = item.StudentID }) |
+                @Html.ActionLink("Select", "Index", new { id = item.StudentID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.StudentID })
+
+            </td>
+        </tr>
+    }
+
+</table>
+@if (Model.Courses != null)
+{
+    <h3>Courses Taught by Selected Student</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            
+            <th>Number </th>
+            <th>Title</th>
+            <th>Department</th>
+        </tr>
+
+        @foreach (var item in Model.Courses)
+        {
+            string selectedRow = "";
+            if (item.CourseId == ViewBag.CourseID)
+            {
+                selectedRow = "success";
+            }
+           <tr accesskey=" " class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { courseID = item.CourseId }) |
+                    @if (item.Grades != null)
+                    {
+                        if (item.Grades.Where(i => i.Student.StudentID == ViewBag.StudentID).FirstOrDefault() == null)
+                        {
+                            @Html.ActionLink("Give Marks", "Fill", new { courseID = item.CourseId, IDstudent = ViewBag.StudentID })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Edit Marks", "EditMarks", new { courseID = item.CourseId, IDstudent = ViewBag.StudentID })
+                        }
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Give Marks", "Fill", new { courseID = item.CourseId, IDstudent = ViewBag.StudentID })
+                    }
+
+                </td>
+               
+                <td>
+                    @item.CourseId
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Department.Name
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+@if (Model.Grade != null)
+{
+   
+    <h3>
+       Moyen of the selected student on the selected course
+    </h3>
+    <table class="table">
+        <tr>
+            <th>DS</th>
+            <th>TP</th>
+            <th>Examen</th>
+            <th>FinaleGrade</th>
+           
+        </tr>
+      
+            <tr>
+                <td>
+                    @Model.Grade.Test
+                </td>
+                <td>
+                   @Model.Grade.Ptest
+                </td>
+                <td>
+                    @Model.Grade.Exam
+                </td>
+                <td>
+                   @Model.Grade.FinaleGrade
+                </td>
+               
+            </tr>
+        
+    </table>
+}

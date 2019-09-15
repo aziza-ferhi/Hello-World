@@ -1,0 +1,43 @@
+﻿@model XYZschool.Models.Grade
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Moyen</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Examen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Examen)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MoyenId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
